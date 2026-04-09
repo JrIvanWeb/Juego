@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake — MVC</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Snake</h1>
+    <p class="subtitle">Arquitectura MVC · Vanilla JS</p>
+  </header>
+
+  <main>
+    <!-- VIEW -->
+    <section class="game-panel">
+      <div class="score-row">
+        <div class="metric">
+          <div class="label">Puntos</div>
+          <div class="value" id="score">0</div>
+        </div>
+        <div class="metric">
+          <div class="label">Récord</div>
+          <div class="value" id="best">0</div>
+        </div>
+        <div class="metric">
+          <div class="label">Nivel</div>
+          <div class="value" id="level">1</div>
+        </div>
+      </div>
+
+      <canvas id="board" width="320" height="320"></canvas>
+
+      <div class="controls">
+        <button id="btn-start" class="primary">Iniciar</button>
+        <button id="btn-pause">Pausar</button>
+        <button id="btn-reset">Reiniciar</button>
+      </div>
+
+      <div class="dpad">
+        <button class="dpad-up" data-dir="UP">↑</button>
+        <button class="dpad-left" data-dir="LEFT">←</button>
+        <button class="dpad-down" data-dir="DOWN">↓</button>
+        <button class="dpad-right" data-dir="RIGHT">→</button>
+      </div>
+
+      <p class="hint">Flechas del teclado · Espacio para pausar</p>
+    </section>
+
+    <!-- MVC LEGEND -->
+    <aside class="legend">
+      <div class="layer">
+        <div class="layer-header"><span class="badge badge-m">M</span> Model</div>
+        <p>Estado del juego: serpiente, comida, puntuación, nivel y colisiones. Sin dependencias de UI.</p>
+        <code>model/GameModel.js</code>
+      </div>
+      <div class="layer">
+        <div class="layer-header"><span class="badge badge-v">V</span> View</div>
+        <p>Renderiza el Canvas a partir del estado del modelo. No modifica datos.</p>
+        <code>view/GameView.js</code>
+      </div>
+      <div class="layer">
+        <div class="layer-header"><span class="badge badge-c">C</span> Controller</div>
+        <p>Captura inputs (teclado / botones), llama a Model y ordena a View re-renderizar.</p>
+        <code>controller/GameController.js</code>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Carga de capas MVC -->
+  <script src="model/GameModel.js"></script>
+  <script src="view/GameView.js"></script>
+  <script src="controller/GameController.js"></script>
+  <script>
+    // Punto de entrada — instancia las 3 capas
+    const model = new GameModel();
+    const view  = new GameView(document.getElementById('board'));
+    const ctrl  = new GameController(model, view);
+    view.render(model);
+  </script>
+
+</body>
+</html>

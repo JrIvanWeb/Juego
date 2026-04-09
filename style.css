@@ -1,0 +1,225 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f4ef;
+  --surface: #ffffff;
+  --surface2: #f1efe8;
+  --border: rgba(0,0,0,0.12);
+  --text: #1a1a18;
+  --text2: #5f5e5a;
+  --green: #1D9E75;
+  --green-light: #EAF3DE;
+  --coral: #D85A30;
+  --amber-light: #FAEEDA;
+  --amber-dark: #633806;
+  --blue-light: #E6F1FB;
+  --blue-dark: #0C447C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111110;
+    --surface: #1c1c1a;
+    --surface2: #252523;
+    --border: rgba(255,255,255,0.1);
+    --text: #e8e6df;
+    --text2: #888780;
+    --green: #5DCAA5;
+    --green-light: #04342C;
+    --coral: #F0997B;
+    --amber-light: #412402;
+    --amber-dark: #FAC775;
+    --blue-light: #042C53;
+    --blue-dark: #B5D4F4;
+  }
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 680px) {
+  main { grid-template-columns: 1fr; }
+}
+
+/* ── Game Panel ── */
+.game-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.score-row {
+  display: flex;
+  gap: 10px;
+}
+
+.metric {
+  flex: 1;
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.metric .label {
+  font-size: 11px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.metric .value {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+canvas#board {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  display: block;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button {
+  flex: 1;
+  font-size: 13px;
+  padding: 9px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 0.5px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.controls button:hover { background: var(--surface2); }
+
+.controls button.primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.controls button.primary:hover { opacity: 0.85; }
+
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(2, 44px);
+  gap: 4px;
+}
+
+.dpad button {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 0.5px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: inherit;
+}
+
+.dpad button:hover { background: var(--surface); }
+.dpad button:active { transform: scale(0.92); }
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
+
+.hint {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* ── MVC Legend ── */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.layer {
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.layer-header {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.badge-m { background: var(--blue-light);   color: var(--blue-dark); }
+.badge-v { background: var(--green-light);  color: var(--green); }
+.badge-c { background: var(--amber-light);  color: var(--amber-dark); }
+
+.layer p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text2);
+  padding: 10px 14px 6px;
+}
+
+.layer code {
+  display: block;
+  font-size: 12px;
+  color: var(--green);
+  padding: 0 14px 12px;
+  font-family: monospace;
+}

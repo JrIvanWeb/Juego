@@ -4,8 +4,165 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Snake — MVC</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .game-panel {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .label {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .value {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    canvas {
+      background: #020617;
+      border: 2px solid #334155;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .controls button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #22c55e;
+      color: white;
+    }
+
+    .controls button:not(.primary) {
+      background: #334155;
+      color: white;
+    }
+
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      gap: 5px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .dpad button {
+      padding: 10px;
+      background: #475569;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    .legend {
+      max-width: 250px;
+      text-align: left;
+    }
+
+    .layer {
+      background: #1e293b;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .badge {
+      padding: 3px 6px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .badge-m { background: #22c55e; }
+    .badge-v { background: #3b82f6; }
+    .badge-c { background: #f59e0b; }
+
+    /* NUEVO PANEL */
+    .info-panel {
+      margin-top: 20px;
+      padding: 15px;
+      background: #111827;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .info-panel h2,
+    .info-panel h3 {
+      margin-bottom: 10px;
+    }
+
+    .info-panel ul {
+      padding-left: 20px;
+    }
+
+    .info-panel li {
+      margin-bottom: 5px;
+    }
+
+    .author {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #9ca3af;
+    }
+  </style>
 </head>
+
 <body>
 
   <header>
@@ -14,7 +171,8 @@
   </header>
 
   <main>
-    <!-- VIEW -->
+
+    <!-- GAME -->
     <section class="game-panel">
       <div class="score-row">
         <div class="metric">
@@ -40,41 +198,64 @@
       </div>
 
       <div class="dpad">
-        <button class="dpad-up" data-dir="UP">↑</button>
-        <button class="dpad-left" data-dir="LEFT">←</button>
-        <button class="dpad-down" data-dir="DOWN">↓</button>
-        <button class="dpad-right" data-dir="RIGHT">→</button>
+        <div></div>
+        <button data-dir="UP">↑</button>
+        <div></div>
+        <button data-dir="LEFT">←</button>
+        <button data-dir="DOWN">↓</button>
+        <button data-dir="RIGHT">→</button>
       </div>
 
       <p class="hint">Flechas del teclado · Espacio para pausar</p>
+
+      <!-- NUEVO BLOQUE -->
+      <section class="info-panel">
+        <h2>¿Cómo jugar?</h2>
+        <ul>
+          <li>Usa las flechas del teclado</li>
+          <li>Come la comida para sumar puntos</li>
+          <li>No choques contigo mismo</li>
+          <li>Presiona espacio para pausar</li>
+        </ul>
+
+        <h3>Sobre el proyecto</h3>
+        <p>
+          Este juego fue desarrollado con arquitectura MVC utilizando JavaScript puro.
+        </p>
+
+        <p class="author">
+          Desarrollado por <strong>JrIvanWeb</strong>
+        </p>
+      </section>
+
     </section>
 
-    <!-- MVC LEGEND -->
+    <!-- MVC INFO -->
     <aside class="legend">
       <div class="layer">
-        <div class="layer-header"><span class="badge badge-m">M</span> Model</div>
-        <p>Estado del juego: serpiente, comida, puntuación, nivel y colisiones. Sin dependencias de UI.</p>
-        <code>model/GameModel.js</code>
+        <div><span class="badge badge-m">M</span> Model</div>
+        <p>Estado del juego</p>
       </div>
+
       <div class="layer">
-        <div class="layer-header"><span class="badge badge-v">V</span> View</div>
-        <p>Renderiza el Canvas a partir del estado del modelo. No modifica datos.</p>
-        <code>view/GameView.js</code>
+        <div><span class="badge badge-v">V</span> View</div>
+        <p>Renderiza el juego</p>
       </div>
+
       <div class="layer">
-        <div class="layer-header"><span class="badge badge-c">C</span> Controller</div>
-        <p>Captura inputs (teclado / botones), llama a Model y ordena a View re-renderizar.</p>
-        <code>controller/GameController.js</code>
+        <div><span class="badge badge-c">C</span> Controller</div>
+        <p>Controla la lógica</p>
       </div>
     </aside>
+
   </main>
 
-  <!-- Carga de capas MVC -->
+  <!-- MVC -->
   <script src="model/GameModel.js"></script>
   <script src="view/GameView.js"></script>
   <script src="controller/GameController.js"></script>
+
   <script>
-    // Punto de entrada — instancia las 3 capas
     const model = new GameModel();
     const view  = new GameView(document.getElementById('board'));
     const ctrl  = new GameController(model, view);
